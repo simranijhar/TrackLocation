@@ -114,7 +114,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private fun buildLocationCallBack(){
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult?) {
-                lastLocation = p0!!.locations.get(p0.locations.size-1) //get last location
+                lastLocation = p0!!.locations.get(p0!!.locations.size-1) //get last location
 
                 if(mMarker != null){
                     mMarker!!.remove()
@@ -127,11 +127,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
 
                 val markerOptions = MarkerOptions().position(latLng).title("Your Position")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                mMarker = mMap.addMarker(markerOptions)
+                mMarker = mMap!!.addMarker(markerOptions)
 
                 //move camera
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                mMap.animateCamera(CameraUpdateFactory.zoomBy(11f))
+                mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                mMap!!.animateCamera(CameraUpdateFactory.zoomTo(11f))
             }
 
         }
