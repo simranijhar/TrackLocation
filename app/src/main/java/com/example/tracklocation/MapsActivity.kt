@@ -19,22 +19,22 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import java.util.jar.Manifest
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
-    private var latitude : Double = 0.toDouble()
-    private var longitude : Double = 0.toDouble()
+    private var latitude : Double = 5.234
+    private var longitude : Double = -2.113
 
-    private lateinit var lastLocation : Location
+    private lateinit var lastLocation: Location
     private var mMarker : Marker?=null
 
     //location
-    private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
+    lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
-    private lateinit var locationRequest : LocationRequest
+    lateinit var locationRequest : LocationRequest
 
-    private lateinit var locationCallback: LocationCallback
+    lateinit var locationCallback: LocationCallback
 
     companion object{
         private const val MY_PERMISSION_CODE: Int = 1000
@@ -74,43 +74,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
 
     }
 
-    override fun onLocationChanged(location: Location?) {
-
-    }
-
-    override fun onProviderDisabled(provider: String?) {
-
-    }
-
-    override fun onProviderEnabled(provider: String?) {
-
-    }
-
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-    }
-
-    private fun checkLocationPermission():Boolean{
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), MY_PERMISSION_CODE)
-            }
-            else{
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), MY_PERMISSION_CODE)
-            }
-            return false
-        }
-        return true
-    }
-
-    private fun buildLocationRequest(){
-        locationRequest = LocationRequest()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 5000
-        locationRequest.fastestInterval = 3000
-        locationRequest.smallestDisplacement = 10f
-    }
-
     private fun buildLocationCallBack(){
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult?) {
@@ -135,6 +98,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
             }
 
         }
+    }
+
+    private fun buildLocationRequest(){
+        locationRequest = LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 5000
+        locationRequest.fastestInterval = 3000
+        locationRequest.smallestDisplacement = 10f
+    }
+
+    private fun checkLocationPermission():Boolean{
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), MY_PERMISSION_CODE)
+            }
+            else{
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION), MY_PERMISSION_CODE)
+            }
+            return false
+        }
+        return true
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
